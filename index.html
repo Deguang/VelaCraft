@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VelaCraft — 纯静态手环表盘 AI 创意工坊</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+<body>
+
+  <!-- ================= Top Linear Navigation Bar ================= -->
+  <nav class="navbar">
+    <div class="nav-left">
+      <a href="#" class="brand">
+        <div class="brand-icon">VC</div>
+        <span>VelaCraft</span>
+      </a>
+    </div>
+
+    <!-- Central Anchor Navigation -->
+    <div class="nav-center">
+      <a href="#studio" class="nav-link" data-i18n="nav_studio">工坊</a>
+      <a href="#features" class="nav-link" data-i18n="nav_features">特性</a>
+      <a href="#guide" class="nav-link" data-i18n="nav_guide">指南</a>
+      <a href="#specs" class="nav-link" data-i18n="nav_specs">规范</a>
+      <a href="#faq" class="nav-link" data-i18n="nav_faq">问答</a>
+    </div>
+
+    <div class="nav-right">
+      <div class="status-pill">
+        <span class="status-dot"></span>
+        <span id="systemStatus" data-i18n="nav_status_ready">本地离线</span>
+      </div>
+      <button class="btn-ghost" id="langToggleBtn" title="切换中英文 / Switch Language">
+        <span>🌐</span>
+        <span id="langText">EN</span>
+      </button>
+      <button class="btn-ghost" id="navFullscreenBtn" title="全屏工作台 (快捷键 F)">
+        <span>⤢</span>
+        <span data-i18n="nav_fullscreen">全屏</span>
+      </button>
+      <button class="btn-ghost" id="openSettingsBtn" title="配置 Gemini 视觉 API Key">
+        <span>⚙️</span>
+        <span data-i18n="nav_ai_config">AI 配置</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================= Hero Section ================= -->
+  <header class="hero-section" id="hero">
+    <div class="hero-ambient-glow"></div>
+    <div class="hero-dot-grid"></div>
+
+    <div class="hero-pill">
+      <span class="hero-pill-badge">✦ VELA OS 2.0</span>
+      <span data-i18n="hero_pill_text">纯前端 WASM 固件编译 · 蓝牙推流一体化工坊</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span class="hero-title-main" data-i18n="hero_title_1">小米手环在线表盘工坊</span>
+      <span class="hero-title-sub" data-i18n="hero_title_2">纯前端设计、解包与蓝牙无线推流</span>
+    </h1>
+
+    <p class="hero-subtitle" data-i18n="hero_subtitle">
+      面向小米手环 8 / 9 / 10 与 Pro 系列。纯前端本地运行，无须配置交叉编译环境，在浏览器中直观完成表盘设计、反编译与蓝牙推流。
+    </p>
+
+    <div class="hero-actions">
+      <a href="#studio" class="btn-primary-lg">
+        <span data-i18n="hero_btn_make">进入工坊</span>
+        <span class="btn-arrow">→</span>
+      </a>
+      <a href="#guide" class="btn-secondary-lg">
+        <span data-i18n="hero_btn_guide">安装指南</span>
+      </a>
+    </div>
+
+    <div class="hero-tech-specs">
+      <div class="tech-spec-item">
+        <span class="tech-spec-dot"></span>
+        <span>1:1 AMOLED 真实视口</span>
+      </div>
+      <div class="tech-spec-item">
+        <span class="tech-spec-dot"></span>
+        <span>纯本地 WASM 编译</span>
+      </div>
+      <div class="tech-spec-item">
+        <span class="tech-spec-dot"></span>
+        <span>Web Bluetooth 直刷</span>
+      </div>
+      <div class="tech-spec-item">
+        <span class="tech-spec-dot"></span>
+        <span>.bin 固件无损逆向</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= Studio Section (Interactive Workspace) ================= -->
+  <section class="studio-section" id="studio">
+    <div class="section-header">
+      <h2 class="section-heading" data-i18n="studio_heading">在线表盘工坊</h2>
+      <p class="section-desc" data-i18n="studio_desc">实时 1:1 硬件物理视口，自由拖拽编排，支持一键导出固件与蓝牙直刷。</p>
+    </div>
+
+    <!-- Mobile Studio Segment Switcher (Only visible on screens <= 1024px) -->
+    <div class="mobile-studio-tabs">
+      <button class="mobile-tab-btn" data-target="panelSketch">
+        <span data-i18n="mobile_tab_sketch">预设资产</span>
+      </button>
+      <button class="mobile-tab-btn active" data-target="panelStage">
+        <span data-i18n="mobile_tab_stage">真机视口</span>
+      </button>
+      <button class="mobile-tab-btn" data-target="panelInspector">
+        <span data-i18n="mobile_tab_inspector">属性微调</span>
+      </button>
+    </div>
+
+    <!-- Main 3-Panel Layout -->
+    <main class="workspace">
+
+    <!-- ===== Panel 1: Creation Workshop (Presets & Resources) ===== -->
+    <section class="panel panel-sketch" id="panelSketch">
+      <div class="panel-header">
+        <span class="panel-title">
+          <span class="panel-code">// 01</span>
+          <span data-i18n="panel_step1_title">预设与资产</span>
+        </span>
+        <span class="panel-badge">PRESETS</span>
+      </div>
+
+      <div class="panel-body">
+        <!-- Mode Tabs -->
+        <div class="tabs">
+          <button class="tab-btn active" id="tabPresets">
+            <span data-i18n="tab_presets">预设</span>
+          </button>
+          <button class="tab-btn" id="tabSketch">
+            <span data-i18n="tab_sketch">画板</span>
+          </button>
+          <button class="tab-btn" id="tabUpload">
+            <span data-i18n="tab_upload">AI 识别</span>
+          </button>
+        </div>
+
+        <!-- Mode 1: Presets Library (Active by Default) -->
+        <div class="preset-selector-list" id="presetsSection">
+          <div class="preset-card-item active" data-preset="retro_chrono">
+            <div class="preset-card-indicator"></div>
+            <div class="preset-card-main">
+              <div class="preset-card-header">
+                <span class="preset-card-title" data-i18n="preset_retro_title">复古数显</span>
+                <span class="preset-card-tag">ChillDIN</span>
+              </div>
+              <div class="preset-card-desc" data-i18n="preset_retro_desc">
+                德黑大字与三等分传感器矩阵
+              </div>
+            </div>
+          </div>
+
+          <div class="preset-card-item" data-preset="analog_luxe">
+            <div class="preset-card-indicator"></div>
+            <div class="preset-card-main">
+              <div class="preset-card-header">
+                <span class="preset-card-title" data-i18n="preset_analog_title">拟真机械</span>
+                <span class="preset-card-tag">Luxe</span>
+              </div>
+              <div class="preset-card-desc" data-i18n="preset_analog_desc">
+                经典太阳放射纹三针走时表盘
+              </div>
+            </div>
+          </div>
+
+          <div class="preset-card-item" data-preset="gallery_photo">
+            <div class="preset-card-indicator"></div>
+            <div class="preset-card-main">
+              <div class="preset-card-header">
+                <span class="preset-card-title" data-i18n="preset_gallery_title">画廊写真</span>
+                <span class="preset-card-tag">Photo</span>
+              </div>
+              <div class="preset-card-desc" data-i18n="preset_gallery_desc">
+                毛玻璃浮层与全景壁纸展示
+              </div>
+            </div>
+          </div>
+
+          <div class="preset-card-item" data-preset="cyber_hud">
+            <div class="preset-card-indicator"></div>
+            <div class="preset-card-main">
+              <div class="preset-card-header">
+                <span class="preset-card-title" data-i18n="preset_cyber_title">赛博机能</span>
+                <span class="preset-card-tag">HUD</span>
+              </div>
+              <div class="preset-card-desc" data-i18n="preset_cyber_desc">
+                双环规机能荧光等宽数显
+              </div>
+            </div>
+          </div>
+
+          <div class="preset-card-item" data-preset="bauhaus_minimal">
+            <div class="preset-card-indicator"></div>
+            <div class="preset-card-main">
+              <div class="preset-card-header">
+                <span class="preset-card-title" data-i18n="preset_bauhaus_title">德系包豪斯</span>
+                <span class="preset-card-tag">Minimal</span>
+              </div>
+              <div class="preset-card-desc" data-i18n="preset_bauhaus_desc">
+                高对比度非对称极简现代排版
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 2: Sketching Mode -->
+        <div class="sketch-container" id="sketchSection" style="display: none;">
+          <div class="canvas-wrapper">
+            <canvas id="sketchCanvas" width="336" height="480"></canvas>
+          </div>
+          <div class="canvas-tools">
+            <div class="tool-group">
+              <button class="tool-btn active" id="penTool" title="画笔" data-i18n-title="tool_pen">画笔</button>
+              <button class="tool-btn" id="eraserTool" title="橡皮擦" data-i18n-title="tool_eraser">橡皮</button>
+            </div>
+            <div class="tool-group">
+              <input type="range" id="brushSize" min="2" max="18" value="4" style="width: 70px;" title="笔刷粗细">
+              <input type="color" id="brushColor" value="#ffffff" style="width: 24px; height: 24px; border:none; background:transparent; cursor:pointer;" title="颜色">
+              <button class="tool-btn" id="clearCanvasBtn" title="清空画板" data-i18n-title="tool_clear">清空</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mode 4: Upload Reference & Optional AI Layout -->
+        <div id="dropzoneSection" class="ai-recognition-section" style="display: none;">
+          <div class="dropzone ai-dropzone" id="aiDropzone">
+            <input type="file" id="imageInput" accept="image/*">
+            <div class="dropzone-icon">📷</div>
+            <div style="font-size: 13px; font-weight: 500;" data-i18n="dropzone_drag">拖拽设计截图或草图到此处</div>
+            <div style="font-size: 11px; color: var(--text-muted);" data-i18n="dropzone_sub">或点击浏览本地图片</div>
+            <img id="dropzonePreview" class="dropzone-preview" alt="Preview">
+          </div>
+
+          <div class="prompt-box">
+            <div class="prompt-label">
+              <span data-i18n="prompt_label">辅助排版说明</span>
+              <span style="font-size: 11px; color: var(--text-muted);" data-i18n="prompt_optional">可选</span>
+            </div>
+            <textarea id="promptInput" class="prompt-textarea" placeholder="例如：德系包豪斯、ChillDIN 德黑大字、底部三等分指标..." data-i18n-placeholder="prompt_placeholder"></textarea>
+            
+            <button class="btn-ai-generate" id="aiGenerateBtn">
+              <span data-i18n="btn_ai_vision">视觉识别转排版</span>
+              <span class="kbd">⌘↵</span>
+            </button>
+            <div class="prompt-hint" data-i18n="btn_ai_subtitle">
+              可选特性：通过 Google Gemini 多模态识别草图坐标
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Panel 2: Live Watch Stage ===== -->
+    <section class="stage-panel panel-stage" id="panelStage">
+      <!-- Precision CAD Crosshair Grid Background Overlay -->
+      <div class="canvas-grid-bg"></div>
+
+      <!-- Corner Telemetry Overlay -->
+      <div class="stage-telemetry stage-telemetry-tl">
+        <span class="telemetry-label">TARGET</span>
+        <span class="telemetry-val" id="hudResolution">336×480 AMOLED</span>
+      </div>
+      <div class="stage-telemetry stage-telemetry-tr">
+        <span class="telemetry-label">PIXEL RATIO</span>
+        <span class="telemetry-val">1:1 NATIVE</span>
+      </div>
+
+      <!-- Stage Hardware Device Selector Dock -->
+      <div class="stage-hardware-header">
+        <div class="stage-device-chip">
+          <span class="stage-device-icon">⌚</span>
+          <select id="stageDeviceSelect" class="stage-device-dropdown">
+            <optgroup label="Pro 系列 (矩形大屏)">
+              <option value="467" data-name="RetroChrono_Band10Pro" data-series="pro" data-width="336" data-height="480" data-shape="rect" selected>小米手环 10 Pro (336×480)</option>
+              <option value="367" data-name="RetroChrono_Band9Pro" data-series="pro" data-width="336" data-height="480" data-shape="rect">小米手环 9 Pro (336×480)</option>
+              <option value="11" data-name="RetroChrono_Band8Pro" data-series="pro" data-width="336" data-height="480" data-shape="rect">小米手环 8 Pro (336×480)</option>
+            </optgroup>
+            <optgroup label="数字手环 (跑道胶囊屏)">
+              <option value="366" data-name="RetroChrono_Band9" data-series="band" data-width="192" data-height="490" data-shape="pill">小米手环 9 (192×490)</option>
+              <option value="9" data-name="RetroChrono_Band8" data-series="band" data-width="192" data-height="490" data-shape="pill">小米手环 8 (192×490)</option>
+              <option value="466" data-name="RetroChrono_Band10" data-series="band" data-width="212" data-height="520" data-shape="pill">小米手环 10 (212×520)</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="stage-hardware-meta">
+          <span class="stage-spec-badge" id="stageDeviceShapeBadge">矩形 AMOLED</span>
+          <span class="stage-spec-badge res" id="stageDeviceResBadge">336 × 480</span>
+        </div>
+      </div>
+
+      <!-- Unified Stage Viewport Toolbar -->
+      <div class="stage-toolbar">
+        <button class="stage-tool-btn active" id="btnLiveTime" data-i18n="btn_live_time">实时</button>
+        <button class="stage-tool-btn" id="btnDemoTime" data-i18n="btn_demo_time">样例</button>
+        <button class="stage-tool-btn" id="btnAODToggle" data-i18n="btn_aod">AOD</button>
+        <div class="stage-tool-divider"></div>
+        <button class="stage-tool-btn" id="btnStageAddSticker" title="上传自定义贴纸或图片" data-i18n="btn_stage_sticker">贴纸</button>
+        <button class="stage-tool-btn" id="btnStageAddText" title="添加个性化文字标签" data-i18n="btn_stage_text">文本</button>
+        <button class="stage-tool-btn" id="btnStageResetAll" title="恢复所有组件初始位置" data-i18n="btn_stage_reset">重置</button>
+        <div class="stage-tool-divider"></div>
+        <button class="stage-tool-btn" id="btnStageFullscreen" title="全屏工作台 (快捷键 F)" data-i18n="btn_fullscreen">全屏</button>
+      </div>
+
+      <!-- Physical Xiaomi Band Hardware Mockup -->
+      <div class="band-mockup-wrapper">
+        <div class="band-strap-top"></div>
+        <div class="band-chassis">
+          <div class="band-bezel">
+            <!-- Native 336 x 480 Watchface Canvas -->
+            <canvas id="watchCanvas" width="336" height="480"></canvas>
+            <div class="glass-reflection"></div>
+          </div>
+        </div>
+        <div class="band-strap-bottom"></div>
+      </div>
+
+      <div class="stage-footer">
+        <div class="stage-footer-item">
+          <span class="telemetry-dot"></span>
+          <span id="canvasFps">60 FPS 实时视口</span>
+        </div>
+        <span>•</span>
+        <div class="stage-footer-item">
+          <span class="telemetry-dim">POS</span>
+          <span class="telemetry-coords" id="hudCoords">X: 168, Y: 154</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Panel 3: Inspector & Direct Export ===== -->
+    <section class="panel panel-inspector" id="panelInspector">
+      <div class="panel-header">
+        <span class="panel-title">
+          <span class="panel-code">// 03</span>
+          <span data-i18n="panel_step3_title">属性与导出</span>
+        </span>
+        <span class="layer-pill" id="activeLayerPill">核心时钟</span>
+      </div>
+
+      <div class="panel-body">
+        <!-- Dual Mode Navigation Tabs -->
+        <div class="tabs" style="margin-bottom: 12px;">
+          <button class="tab-btn active" id="tabInspectorBtn">
+            <span>🎛️</span> 图层微调
+          </button>
+          <button class="tab-btn" id="tabGlobalBtn">
+            <span>🎨</span> 全局与导出
+          </button>
+        </div>
+
+        <!-- ================= Mode 1: Layer Inspector ================= -->
+        <div id="inspectorTabContent" class="inspector-section">
+          <!-- Active Layer Picker -->
+          <div class="input-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="section-title" style="margin:0;">选择图层</label>
+              <span style="font-size: 11px; color: var(--text-muted);">画布可点击</span>
+            </div>
+            <select id="layerSelect" class="text-input" style="cursor: pointer;">
+              <option value="time" selected>⏱️ 核心时钟</option>
+              <option value="weather">🌤️ 天气指示</option>
+              <option value="battery">🔋 电池电量</option>
+              <option value="ribbon">📅 日期星期</option>
+              <option value="steps">👟 运动步数</option>
+              <option value="hrm">❤️ 心率测量</option>
+              <option value="cal">🔥 活动热量</option>
+              <option value="bg">🌄 表盘背景</option>
+            </select>
+          </div>
+
+          <!-- Specialized Preset Inspector Strip (Active when non-retro preset is selected) -->
+          <div id="presetInspectorCard" class="preset-tune-box" style="display: none;">
+            <div class="preset-tune-header">
+              <span class="preset-tune-pill" id="presetTuneTitle">拟真机械 · Luxe</span>
+              <span class="preset-tune-badge" id="presetTuneBadge">一体化预设</span>
+            </div>
+            <p class="preset-tune-desc" id="presetTuneDesc">经典太阳放射纹三针走时，高精度实时动力指针。</p>
+            <!-- Analog Chronometer Dial Selector (Active on analog_luxe) -->
+            <div id="analogDialSection" class="gallery-photo-switcher" style="display: none;">
+              <div class="section-title" style="font-size: 11px; margin-top: 10px; margin-bottom: 6px;">
+                机械盘面材质
+              </div>
+              <div class="gallery-thumbs-grid" id="analogDialGrid" style="grid-template-columns: repeat(4, 1fr);">
+                <button class="gallery-thumb-btn active" data-dial="titanium" title="暗夜钛黑">
+                  <span class="gallery-thumb-preview thumb-titanium"></span>
+                  <span class="gallery-thumb-label">钛黑</span>
+                </button>
+                <button class="gallery-thumb-btn" data-dial="sunburst_blue" title="深海曜蓝">
+                  <span class="gallery-thumb-preview thumb-sunburst-blue"></span>
+                  <span class="gallery-thumb-label">曜蓝</span>
+                </button>
+                <button class="gallery-thumb-btn" data-dial="emerald" title="祖母绿金">
+                  <span class="gallery-thumb-preview thumb-emerald"></span>
+                  <span class="gallery-thumb-label">墨绿</span>
+                </button>
+                <button class="gallery-thumb-btn" data-dial="cream" title="经典象牙白">
+                  <span class="gallery-thumb-preview thumb-cream"></span>
+                  <span class="gallery-thumb-label">象牙白</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Theme Color Row with Swatches -->
+            <div class="preset-tune-row" id="presetThemeColorRow">
+              <label class="preset-tune-label" id="presetThemeColorLabel" data-i18n="preset_theme_color">主题微调色</label>
+              <div class="preset-color-picker-wrap">
+                <input type="color" id="presetThemeColor" value="#00E5FF" class="color-picker-input">
+                <span id="presetThemeColorVal" class="preset-color-val">#00E5FF</span>
+              </div>
+            </div>
+            <div class="preset-color-swatches" id="presetColorSwatches"></div>
+
+            <!-- Gallery Wallpaper Switcher Section (Active on gallery_photo) -->
+            <div id="galleryWallpaperSection" class="gallery-photo-switcher" style="display: none;">
+              <div class="section-title" style="font-size: 11px; margin-top: 10px; margin-bottom: 6px;">
+                相册底图与壁纸
+              </div>
+              <div class="gallery-thumbs-grid" id="galleryThumbsGrid">
+                <button class="gallery-thumb-btn active" data-theme="sunset" title="日落余晖">
+                  <span class="gallery-thumb-preview thumb-sunset"></span>
+                  <span class="gallery-thumb-label">日落</span>
+                </button>
+                <button class="gallery-thumb-btn" data-theme="aurora" title="极光星空">
+                  <span class="gallery-thumb-preview thumb-aurora"></span>
+                  <span class="gallery-thumb-label">极光</span>
+                </button>
+                <button class="gallery-thumb-btn" data-theme="cybercity" title="赛博雨夜">
+                  <span class="gallery-thumb-preview thumb-cybercity"></span>
+                  <span class="gallery-thumb-label">赛博</span>
+                </button>
+                <button class="gallery-thumb-btn" data-theme="forest" title="晨雾冷杉">
+                  <span class="gallery-thumb-preview thumb-forest"></span>
+                  <span class="gallery-thumb-label">冷杉</span>
+                </button>
+                <button class="gallery-thumb-btn" data-theme="sakura" title="富士樱雪">
+                  <span class="gallery-thumb-preview thumb-sakura"></span>
+                  <span class="gallery-thumb-label">樱雪</span>
+                </button>
+              </div>
+
+              <div style="display: flex; gap: 6px; margin-top: 10px;">
+                <button class="btn-preset-action" id="btnUploadGalleryPhoto" style="flex: 1; justify-content: center;">
+                  <span>📷 更换自定义照片</span>
+                </button>
+                <button class="btn-ghost" id="btnClearGalleryPhoto" style="padding: 0 10px; font-size: 11px; border: 1px solid var(--border);" title="恢复预设底图">
+                  <span>↺</span>
+                </button>
+                <input type="file" id="galleryPhotoFileInput" accept="image/*" style="display: none;">
+              </div>
+            </div>
+            <div class="preset-tune-actions">
+              <button class="btn-preset-action" id="btnPresetAddSticker">
+                <span>🖼️ 叠加贴纸</span>
+              </button>
+              <button class="btn-preset-action" id="btnPresetAddText">
+                <span>🔤 叠加文本</span>
+              </button>
+            </div>
+            <div class="preset-tune-hint">
+              提示：可点击上方工具栏添加贴纸或文字进行微调；也可随时切回「复古数显」体验全指标拖拽排版与固件生成。
+            </div>
+          </div>
+
+          <div id="retroInspectorControls">
+            <!-- Position Coordinates & Sliders -->
+            <div class="input-group" id="groupPosition">
+              <label class="section-title">位置坐标 (X / Y)</label>
+              
+              <div class="coord-row">
+                <div class="coord-field">
+                  <span class="coord-label">X</span>
+                  <input type="number" id="propX" class="coord-input" min="0" max="336" value="168">
+                  <span class="coord-unit">px</span>
+                </div>
+                <input type="range" id="propXSlider" class="coord-slider" min="0" max="336" value="168">
+              </div>
+
+              <div class="coord-row" style="margin-top: 8px;">
+                <div class="coord-field">
+                  <span class="coord-label">Y</span>
+                  <input type="number" id="propY" class="coord-input" min="0" max="480" value="154">
+                  <span class="coord-unit">px</span>
+                </div>
+                <input type="range" id="propYSlider" class="coord-slider" min="0" max="480" value="154">
+              </div>
+            </div>
+
+            <!-- Quick Alignment Matrix -->
+            <div class="input-group" id="groupAlign">
+              <label class="section-title">吸附对齐</label>
+              <div class="align-grid">
+                <button class="btn-align" id="alignLeft" title="靠左对齐 (X: 14)">⇤ 左</button>
+                <button class="btn-align" id="alignCenterX" title="水平居中 (X: 168)">⇋ 居中</button>
+                <button class="btn-align" id="alignRight" title="靠右对齐">⇥ 右</button>
+                <button class="btn-align" id="alignTop" title="顶部对齐 (Y: 24)">⇡ 顶</button>
+                <button class="btn-align" id="alignCenterY" title="垂直居中 (Y: 240)">⇵ 中</button>
+                <button class="btn-align" id="alignBottom" title="底部对齐">⇣ 底</button>
+              </div>
+              <button class="btn-ghost" id="alignReset" style="width: 100%; margin-top: 6px; border: 1px solid var(--border); justify-content: center;">
+                <span>↺</span> 恢复初始位置
+              </button>
+            </div>
+          </div>
+
+          <!-- Typography & Scale -->
+          <div class="input-group" id="groupScale">
+            <label class="section-title">缩放与尺寸</label>
+            
+            <div class="prop-slider-row" id="rowFontSize">
+              <div class="prop-slider-header">
+                <span>字号</span>
+                <span id="labelFontSize" class="prop-slider-val">136 px</span>
+              </div>
+              <input type="range" id="propFontSize" min="14" max="160" value="136">
+            </div>
+
+            <div class="prop-slider-row" id="rowScaleX" style="margin-top: 8px;">
+              <div class="prop-slider-header">
+                <span>水平拉伸</span>
+                <span id="labelScaleX" class="prop-slider-val">0.95</span>
+              </div>
+              <input type="range" id="propScaleX" min="0.5" max="2.0" step="0.05" value="0.95">
+            </div>
+
+            <div class="prop-slider-row" id="rowScaleY" style="margin-top: 8px;">
+              <div class="prop-slider-header">
+                <span>垂直拉伸</span>
+                <span id="labelScaleY" class="prop-slider-val">1.25</span>
+              </div>
+              <input type="range" id="propScaleY" min="0.5" max="2.0" step="0.05" value="1.25">
+            </div>
+          </div>
+
+          <!-- Custom Text Content (Only shown when custom text selected) -->
+          <div class="input-group" id="groupCustomText" style="display: none;">
+            <label class="section-title">自定义文本内容</label>
+            <input type="text" id="propCustomText" class="text-input" value="VELA CRAFT">
+          </div>
+
+          <!-- Layer Color Tinting -->
+          <div class="input-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="section-title" style="margin:0;">图层颜色</label>
+              <input type="color" id="propLayerColor" value="#D4D4D8" style="width: 24px; height: 24px; border:none; background:transparent; cursor:pointer;">
+            </div>
+          </div>
+
+          <!-- Asset Replacement Pipeline -->
+          <div class="input-group">
+            <label class="section-title">素材替换</label>
+            
+            <!-- Background wallpaper replace -->
+            <div id="assetBoxBg" style="display: none;">
+              <button class="btn-asset-replace" id="btnUploadWallpaper">
+                <span>🖼️</span> 上传个性壁纸 (PNG/JPG)
+              </button>
+              <input type="file" id="wallpaperFileInput" accept="image/*" style="display: none;">
+              <button class="btn-ghost" id="btnClearWallpaper" style="width: 100%; margin-top: 6px; border: 1px solid var(--border); justify-content: center;">
+                <span>🔄</span> 恢复纯黑省电背景
+              </button>
+            </div>
+
+            <!-- Component icon replace -->
+            <div id="assetBoxIcon" style="display: block;">
+              <div class="asset-preview-bar">
+                <span style="font-size: 12px; color: var(--text-secondary);">组件图标</span>
+                <button class="btn-asset-replace" id="btnUploadCustomIcon">
+                  <span>📤</span> 替换图标
+                </button>
+                <input type="file" id="iconFileInput" accept="image/png,image/svg+xml,image/jpeg" style="display: none;">
+              </div>
+              <button class="btn-ghost" id="btnClearCustomIcon" style="width: 100%; margin-top: 6px; border: 1px solid var(--border); justify-content: center;">
+                <span>↺</span> 恢复默认图标
+              </button>
+            </div>
+
+            <!-- Custom layer deletion -->
+            <div id="assetBoxCustom" style="display: none; margin-top: 8px;">
+              <button class="btn-danger-outline" id="btnDeleteSelectedLayer">
+                <span>🗑️</span> 删除此自定义图层
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= Mode 2: Global Styles & Export ================= -->
+        <div id="globalTabContent" class="inspector-section" style="display: none;">
+          <!-- Title Input -->
+          <div class="input-group">
+            <label class="section-title">表盘名称</label>
+            <input type="text" id="watchfaceTitle" class="text-input" value="简约数字表盘" maxlength="20">
+          </div>
+
+          <!-- Font Family Selector -->
+          <div class="input-group">
+            <label class="section-title">时钟字体</label>
+            <select id="fontSelect" class="text-input" style="cursor: pointer;">
+              <option value="ChillDIN" selected>ChillDIN · 德黑</option>
+              <option value="Bebas Neue">Bebas Neue · 紧凑</option>
+              <option value="Orbitron">Orbitron · 赛博</option>
+              <option value="Space Mono">Space Mono · 等宽</option>
+              <option value="Syne">Syne · 前卫</option>
+              <option value="Silkscreen">Silkscreen · 像素</option>
+            </select>
+          </div>
+
+          <!-- Icon Style Switcher -->
+          <div class="input-group">
+            <label class="section-title">图标风格</label>
+            <div class="tabs" style="margin-bottom: 4px;">
+              <button class="tab-btn active" id="btnIconColor">
+                <span>🌈</span> 彩色矢量
+              </button>
+              <button class="tab-btn" id="btnIconMono">
+                <span>⚪</span> 极简线条
+              </button>
+            </div>
+          </div>
+
+          <!-- Color Palette -->
+          <div class="input-group">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+              <label class="section-title" style="margin: 0;">主题配色</label>
+              <input type="color" id="customColorPicker" value="#D4D4D8" style="width: 20px; height: 20px; border:none; background:transparent; cursor:pointer;" title="自定义任意色">
+            </div>
+            <div class="swatches-grid" id="swatchesContainer">
+              <!-- Dynamically populated via JS -->
+            </div>
+          </div>
+
+          <!-- Component Toggles -->
+          <div class="input-group">
+            <label class="section-title">模块开关</label>
+            
+            <div class="toggle-item">
+              <span>天气与电量</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleStatus" checked>
+                <span class="slider-pill"></span>
+              </label>
+            </div>
+
+            <div class="toggle-item">
+              <span>日期与秒数</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleRibbon" checked>
+                <span class="slider-pill"></span>
+              </label>
+            </div>
+
+            <div class="toggle-item">
+              <span>底部健康指标</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleHealth" checked>
+                <span class="slider-pill"></span>
+              </label>
+            </div>
+
+            <div class="toggle-item">
+              <span>大号心率数值</span>
+              <label class="toggle-switch">
+                <input type="checkbox" id="toggleBigHrm" checked>
+                <span class="slider-pill"></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Export Actions -->
+          <div class="export-card">
+            <!-- Official & Native Screenshot Exporters -->
+            <div style="display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px;">
+              <div class="section-title" style="margin-bottom: 2px;" data-i18n="export_preview_title">预览图导出</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+                <button class="btn-ghost" id="btnExport230x328" style="border: 1px solid var(--border); font-size: 12px; justify-content: center; padding: 9px 4px; border-radius: var(--radius-sm);" title="米家 / 小米运动健康 App 官方商店 230×328 缩略图标准">
+                  <span>🖼️</span>
+                  <span data-i18n="btn_export_230">商店图 230×328</span>
+                </button>
+                <button class="btn-ghost" id="btnExport336x480" style="border: 1px solid var(--border); font-size: 12px; justify-content: center; padding: 9px 4px; border-radius: var(--radius-sm);" title="1:1 原生高清 336×480 AMOLED 屏幕截图">
+                  <span>📸</span>
+                  <span data-i18n="btn_export_336">高清图 336×480</span>
+                </button>
+              </div>
+            </div>
+
+            <button class="btn-ble-sync" id="btnBleSync">
+              <span>📡</span>
+              <span data-i18n="btn_ble_sync">网页蓝牙直刷手环</span>
+            </button>
+
+            <button class="btn-ble-sync" id="btnWebShare" style="background: rgba(255, 255, 255, 0.04); border-color: var(--border); color: var(--text-primary);">
+              <span>📱</span>
+              <span data-i18n="btn_web_share">系统分享</span>
+            </button>
+
+            <button class="btn-download-bin" id="btnDownloadBin">
+              <span>📥</span>
+              <span data-i18n="btn_download_bin">导出 .bin 固件</span>
+              <span class="kbd">⌘S</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Floating Exit Fullscreen Button -->
+    <button class="btn-exit-fullscreen" id="btnExitFullscreen" title="退出全屏 (快捷键 Esc)">
+      <span>✕</span>
+      <span data-i18n="nav_exit_fullscreen">退出全屏 (Esc)</span>
+    </button>
+  </section>
+
+  <!-- ================= Features Section ================= -->
+  <section class="features-section lp-section" id="features">
+    <div class="section-header">
+      <h2 class="section-heading" data-i18n="features_title">技术架构</h2>
+      <p class="section-desc" data-i18n="features_subtitle">完全在浏览器本地内存运行，支持直接编译、解包与无线推流。</p>
+    </div>
+
+    <div class="arch-pillars-grid">
+      <div class="arch-pillar-card">
+        <div class="arch-card-header">
+          <span class="arch-card-index">// 01 WASM ENGINE</span>
+          <span class="arch-card-badge">本地内存</span>
+        </div>
+        <h3 class="arch-pillar-title" data-i18n="arch_1_title">纯前端固件编译与逆向引擎</h3>
+        <p class="arch-pillar-desc" data-i18n="arch_1_desc">
+          基于 WebAssembly 与 TypedArray 纯本地运行，零云端依赖。
+        </p>
+        <ul class="arch-spec-list">
+          <li><strong>内存编译器</strong>：依据 VelaOS 规范生成切片索引与二进制固件。</li>
+          <li><strong>Magic 与校验</strong>：自动识别设备魔数、分辨率与图层偏移。</li>
+          <li><strong>RLE v10 解包</strong>：无损逆向还原固件内所有图像切片。</li>
+        </ul>
+      </div>
+
+      <div class="arch-pillar-card">
+        <div class="arch-card-header">
+          <span class="arch-card-index">// 02 DUAL VIEWPORT</span>
+          <span class="arch-card-badge">物理形态</span>
+        </div>
+        <h3 class="arch-pillar-title" data-i18n="arch_2_title">1:1 真机双形态交互编排</h3>
+        <p class="arch-pillar-desc" data-i18n="arch_2_desc">
+          校准跑道圆与大方屏物理边框与真实像素比例。
+        </p>
+        <ul class="arch-spec-list">
+          <li><strong>双形态拟真</strong>：无缝切换 192×490 胶囊屏与 336×480 方屏。</li>
+          <li><strong>磁吸对齐</strong>：自由拖拽图层，智能吸附中轴与边界，支持键盘微调。</li>
+          <li><strong>素材热替换</strong>：一键更换壁纸、图标与贴纸，即时套用配色。</li>
+        </ul>
+      </div>
+
+      <div class="arch-pillar-card">
+        <div class="arch-card-header">
+          <span class="arch-card-index">// 03 GATT BLUETOOTH</span>
+          <span class="arch-card-badge">极速直刷</span>
+        </div>
+        <h3 class="arch-pillar-title" data-i18n="arch_3_title">标准规范导出与无线推流</h3>
+        <p class="arch-pillar-desc" data-i18n="arch_3_desc">
+          直连手环硬件与市场规范，极简闭环。
+        </p>
+        <ul class="arch-spec-list">
+          <li><strong>230×328 规范</strong>：一键导出官方市场标准商店预览图。</li>
+          <li><strong>蓝牙直刷</strong>：浏览器通过 Web Bluetooth GATT 无线推送到手环。</li>
+          <li><strong>通用固件包</strong>：生成标准 .bin 固件，兼容主流手环工具。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Guide Section ================= -->
+  <section class="guide-section lp-section" id="guide">
+    <div class="section-header">
+      <h2 class="section-heading" data-i18n="guide_title">表盘安装指南</h2>
+      <p class="section-desc" data-i18n="guide_subtitle">提供 3 种稳定可靠的手环安装路径。</p>
+    </div>
+
+    <div class="guide-grid">
+      <div class="guide-card">
+        <div class="guide-badge" data-i18n="guide_r1_badge">推荐</div>
+        <h3 class="guide-title" data-i18n="guide_r1_title">网页蓝牙直刷</h3>
+        <p class="guide-desc" data-i18n="guide_r1_desc">免 App，通过 Chrome/Edge 浏览器直接配对推流至手环。</p>
+        <div class="guide-steps">
+          <div class="guide-step">
+            <span class="step-number">1</span>
+            <div>保持手环亮屏并在电脑/手机附近。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">2</span>
+            <div>点击「网页蓝牙直刷手环」。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">3</span>
+            <div>在浏览器弹窗中选择并配对手环。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">4</span>
+            <div>传输完成手环自动载入新表盘。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <div class="guide-badge" data-i18n="guide_r2_badge">通用</div>
+        <h3 class="guide-title" data-i18n="guide_r2_title">表盘工具导入</h3>
+        <p class="guide-desc" data-i18n="guide_r2_desc">借助社区成熟工具，连接更稳定、兼容全部 Android 机型。</p>
+        <div class="guide-steps">
+          <div class="guide-step">
+            <span class="step-number">1</span>
+            <div>点击「导出 .bin 固件」保存到手机。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">2</span>
+            <div>打开「表盘自定义工具」或 Notify App。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">3</span>
+            <div>选择从本地文件安装并选取 <code>.bin</code>。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">4</span>
+            <div>点击开始同步即可。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-card">
+        <div class="guide-badge" data-i18n="guide_r3_badge">免工具</div>
+        <h3 class="guide-title" data-i18n="guide_r3_title">官方应用文件替换</h3>
+        <p class="guide-desc" data-i18n="guide_r3_desc">通过文件管理器替换小米运动健康官方缓存表盘。</p>
+        <div class="guide-steps">
+          <div class="guide-step">
+            <span class="step-number">1</span>
+            <div>在小米运动健康中同步任意官方免费表盘。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">2</span>
+            <div>打开路径 <code>Android/data/com.mi.health/files/watchface/</code>。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">3</span>
+            <div>复制刚同步的官方表盘 <code>.bin</code> 文件名。</div>
+          </div>
+          <div class="guide-step">
+            <span class="step-number">4</span>
+            <div>将导出的 <code>.bin</code> 重命名覆盖原文件并重新应用。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Hardware Specs Section ================= -->
+  <section class="specs-section lp-section" id="specs">
+    <div class="section-header">
+      <h2 class="section-heading">硬件设备与分辨率矩阵</h2>
+      <p class="section-desc">针对各代小米手环 AMOLED 屏幕物理特性进行的底层渲染与像素级对齐规范。</p>
+    </div>
+
+    <div class="specs-table-wrapper">
+      <table class="specs-table">
+        <thead>
+          <tr>
+            <th>设备型号</th>
+            <th>屏幕形态</th>
+            <th>物理分辨率</th>
+            <th>像素密度 (PPI)</th>
+            <th>刷新率</th>
+            <th>官方预览图规格</th>
+            <th>适配状态</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>小米手环 8 / 9</strong></td>
+            <td>跑道圆胶囊屏</td>
+            <td>192 × 490 px</td>
+            <td>326 PPI</td>
+            <td>60 Hz</td>
+            <td>192 × 490 / 230 × 328</td>
+            <td><span class="spec-status status-ready">● 已适配</span></td>
+          </tr>
+          <tr>
+            <td><strong>小米手环 10</strong></td>
+            <td>跑道圆胶囊屏 (高刷微曲)</td>
+            <td>212 × 520 px</td>
+            <td>336 PPI</td>
+            <td>60 Hz</td>
+            <td>212 × 520 / 230 × 328</td>
+            <td><span class="spec-status status-ready">● 已适配</span></td>
+          </tr>
+          <tr>
+            <td><strong>小米手环 8 Pro</strong></td>
+            <td>方形全景视网膜屏</td>
+            <td>336 × 480 px</td>
+            <td>336 PPI</td>
+            <td>60 Hz</td>
+            <td>230 × 328 px</td>
+            <td><span class="spec-status status-ready">● 已适配</span></td>
+          </tr>
+          <tr>
+            <td><strong>小米手环 9 Pro</strong></td>
+            <td>方形极窄微曲大屏</td>
+            <td>336 × 480 px</td>
+            <td>336 PPI</td>
+            <td>60 Hz</td>
+            <td>230 × 328 px</td>
+            <td><span class="spec-status status-ready">● 已适配</span></td>
+          </tr>
+          <tr>
+            <td><strong>小米手环 10 Pro</strong></td>
+            <td>方形四等边 AMOLED</td>
+            <td>336 × 480 px</td>
+            <td>336 PPI</td>
+            <td>60 Hz</td>
+            <td>230 × 328 px</td>
+            <td><span class="spec-status status-ready">● 已适配</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ================= FAQ Section ================= -->
+  <section class="faq-section lp-section" id="faq">
+    <div class="section-header">
+      <h2 class="section-heading">常见疑问解答</h2>
+      <p class="section-desc">关于手环表盘生态的技术边界与安全考量。</p>
+    </div>
+
+    <div class="faq-grid">
+      <div class="faq-card">
+        <div class="faq-q">安装定制表盘会导致手环变砖或脱保吗？</div>
+        <div class="faq-a">
+          不会。VelaCraft 生成的是小米 VelaOS 表盘资源包，运行在手环操作系统上层沙盒中，不修改 Bootloader 或系统底层。在手环屏幕长按即可切回官方默认表盘，零变砖风险，不影响售后联保。
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <div class="faq-q">为什么 iPhone (Safari) 无法直接「蓝牙直刷」？</div>
+        <div class="faq-a">
+          受 Apple iOS WebKit 安全策略限制，移动端 Safari 尚未开放 Web Bluetooth API。iOS 用户可通过导出的 <code>.bin</code> 文件，在配套工具应用中导入并推送到手环。
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <div class="faq-q">导出的「230 × 328」预览图有什么用途？</div>
+        <div class="faq-a">
+          230 × 328 是小米运动健康 App 表盘市场与第三方社区的标准缩略图规格，可确保在发布分享或提交审核时比例完美匹配、不被拉伸变形。
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <div class="faq-q">设计素材与 API Key 会被上传到云端吗？</div>
+        <div class="faq-a">
+          不会。VelaCraft 属于 100% 纯静态应用，无后端服务器。渲染、Gizmo 交互与固件打包均在本地浏览器内存中完成；API Key 仅存储于本地 LocalStorage。
+        </div>
+      </div>
+
+      <div class="faq-card">
+        <div class="faq-q">导入现有的 .bin 固件可以做什么？</div>
+        <div class="faq-a">
+          支持无损逆向解包与二次创作。前端引擎会自动解析魔数、提取索引并解压 RLE v10 切片，可单独或批量下载高清素材 PNG，也可直接载入工坊微调后重新打包。
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Global Matrix Footer ================= -->
+  <deguang-footer>
+    <div class="deguang-footer-fallback">
+      <footer style="margin-top: 5rem; padding: 4rem 1.5rem 2.5rem; border-top: 1px solid var(--border); background: rgba(0,0,0,0.2);">
+        <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem;">
+          <div>
+            <h4 style="margin: 0 0 1rem 0; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.05em; text-transform: uppercase;">Li Deguang App Matrix</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem;">
+              <a href="https://app.lideguang.com/link-and-title-copy-pro/" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">Link & Title Copy Pro</a>
+              <a href="https://app.lideguang.com/query-params-viewer/" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">Query Params Viewer</a>
+              <a href="https://app.lideguang.com/gemini-polish/" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">Gemini Polish</a>
+              <a href="https://app.lideguang.com/keep-scroll-sync/" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">Keep Scroll Sync</a>
+              <a href="https://page.lideguang.com/" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">EdgeForm</a>
+              <a href="https://github.com/Deguang/vue-pdf-reader" target="_blank" rel="noopener" style="color: var(--text-muted); font-size: 0.875rem; text-decoration: none;">Vue PDF Reader</a>
+            </div>
+          </div>
+          <hr style="border: 0; height: 1px; background: var(--border); width: 100%; margin: 0;" />
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1rem; font-size: 0.85rem; color: var(--text-muted);">
+            <div>&copy; 2026 Li Deguang. VelaCraft is open-source under MIT License.</div>
+            <div style="display: flex; gap: 1.5rem;">
+              <a href="https://app.lideguang.com" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: none;">Dashboard</a>
+              <a href="https://github.com/Deguang" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: none;">GitHub</a>
+              <a href="https://x.com/deguang_li" target="_blank" rel="noopener" style="color: var(--text-muted); text-decoration: none;">X (Twitter)</a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </deguang-footer>
+  <script src="https://app.lideguang.com/deguang-footer.js" type="module" async></script>
+
+  <!-- ================= Modals ================= -->
+
+  <!-- Watchface Decompiler / Unpack Modal -->
+  <div class="modal-overlay" id="unpackModal">
+    <div class="modal-box" style="max-width: 680px; max-height: 85vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>📦</span>
+          <span data-i18n="decompiler_title">表盘固件解包分析器 (Decompiler)</span>
+        </h3>
+        <button class="btn-close" id="closeUnpackModal">&times;</button>
+      </div>
+
+      <div style="overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 16px;">
+        <!-- Meta info badge bar -->
+        <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 12px 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px;">
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_meta_name">表盘名称</div>
+            <div id="unpackMetaTitle" style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-top: 2px;">--</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_meta_target">目标硬件</div>
+            <div id="unpackMetaDevice" style="font-size: 13px; font-weight: 600; color: var(--accent); margin-top: 2px;">--</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_meta_res">原生分辨率</div>
+            <div id="unpackMetaRes" style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-top: 2px;">--</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_meta_slices">切片素材</div>
+            <div id="unpackMetaSliceCount" style="font-size: 13px; font-weight: 600; color: var(--text-primary); margin-top: 2px;">--</div>
+          </div>
+          <div>
+            <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_meta_size">固件包体积</div>
+            <div id="unpackMetaFileSize" style="font-size: 13px; font-weight: 600; color: var(--text-secondary); margin-top: 2px;">--</div>
+          </div>
+        </div>
+
+        <!-- Preview and details -->
+        <div style="display: flex; gap: 16px; align-items: flex-start;">
+          <!-- Preview image -->
+          <div style="width: 140px; flex-shrink: 0; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+            <div style="width: 140px; height: 200px; background: #000; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative;">
+              <img id="unpackPreviewImg" style="max-width: 100%; max-height: 100%; object-fit: contain;" alt="Unpacked Preview">
+            </div>
+            <span style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_preview_tag">官方商店缩略图</span>
+            <button class="btn-ghost" id="btnDownloadPreview" style="font-size: 11px; padding: 4px 8px; width: 100%; justify-content: center;" data-i18n="decompiler_btn_download_preview">保存预览图</button>
+          </div>
+
+          <!-- Slices gallery -->
+          <div style="flex: 1; min-width: 0;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+              <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary);">
+                <span data-i18n="decompiler_slices_title">解包提取的图层切片</span> (<span id="unpackSliceTotal">0</span>)
+              </div>
+              <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_slices_sub">
+                点击切片单独保存 PNG
+              </div>
+            </div>
+            <div id="unpackSlicesGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(76px, 1fr)); gap: 8px; max-height: 240px; overflow-y: auto; padding-right: 4px;">
+              <!-- Slices dynamically inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer Actions -->
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
+        <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_local_tag">
+          100% 浏览器客户端逆向解析 · 零数据上传
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn-ghost" id="cancelUnpackBtn" data-i18n="decompiler_btn_close">关闭</button>
+          <button class="btn-ghost" id="btnDownloadAllSlices" data-i18n="decompiler_btn_download_all">批量下载全部切片</button>
+          <button class="btn-ai-generate" id="btnLoadUnpackedIntoStudio" style="width: auto; padding: 0 16px;">
+            <span>⚡</span>
+            <span data-i18n="decompiler_btn_load_studio">载入工坊进行在线二创</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticker Library Modal -->
+  <div class="modal-overlay" id="stickerModal">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>🎨</span>
+          <span data-i18n="sticker_modal_title">选择或上传贴纸</span>
+        </h3>
+        <button class="btn-close" id="closeStickerModal">&times;</button>
+      </div>
+
+      <div style="margin-top: 14px;">
+        <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px;" data-i18n="sticker_presets_title">
+          精品个性贴纸 (点击即刻添加到表盘)
+        </div>
+        <div class="sticker-grid" id="presetStickersGrid"></div>
+
+        <div style="margin-top: 18px; border-top: 1px solid var(--border); padding-top: 14px;">
+          <div style="font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 8px;" data-i18n="sticker_upload_title">
+            从本地设备导入任意素材
+          </div>
+          <button class="btn-primary-lg" id="btnUploadLocalSticker" style="width: 100%; justify-content: center; font-size: 13px; padding: 10px;">
+            <span>📁</span> <span data-i18n="btn_choose_sticker_file">浏览本地图片 (PNG / SVG / JPG)</span>
+          </button>
+          <input type="file" id="stickerFileInput" accept="image/*" style="display: none;">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Gemini API Key Modal -->
+  <div class="modal-overlay" id="apiKeyModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 class="modal-title">配置 Gemini 视觉大模型 API</h3>
+        <button class="btn-close" id="closeApiKeyModal">&times;</button>
+      </div>
+      <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.5;">
+        VelaCraft 属于 100% 纯静态应用。API Key 仅安全保存在您的手机/电脑浏览器本地（LocalStorage），请求直接由浏览器发送给 Google API，绝不经过任何第三方服务器。
+      </p>
+      <div class="input-group">
+        <label class="section-title">Gemini API Key</label>
+        <input type="password" id="apiKeyInput" class="text-input" placeholder="AIzaSy...">
+      </div>
+      <div style="display: flex; gap: 8px; justify-content: flex-end;">
+        <button class="btn-ghost" id="cancelApiKeyBtn">取消</button>
+        <button class="btn-ai-generate" style="width: auto; padding: 0 16px;" id="saveApiKeyBtn">保存并启用</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Web Bluetooth Scanning Modal -->
+  <div class="modal-overlay" id="bleModal">
+    <div class="modal-box" style="text-align: center;">
+      <div class="modal-header">
+        <h3 class="modal-title">网页直刷手环 (Web Bluetooth)</h3>
+        <button class="btn-close" id="closeBleModal">&times;</button>
+      </div>
+      
+      <div class="radar-scanner">
+        <span style="font-size: 28px;">⌚</span>
+      </div>
+
+      <div id="bleStatusText" style="font-size: 14px; font-weight: 500; color: var(--text-primary);">
+        正在搜索附近的小米手环...
+      </div>
+      <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.4;">
+        请确保手环亮屏并在手机/电脑附近，若弹出浏览器蓝牙授权请选择您的手环配对。
+      </div>
+
+      <div style="width: 100%; height: 6px; background: var(--surface-active); border-radius: 3px; overflow: hidden; margin-top: 10px;">
+        <div id="bleProgressBar" style="width: 0%; height: 100%; background: var(--accent-gradient); transition: width 0.3s;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/i18n.js"></script>
+  <script src="js/vela-packer.js"></script>
+  <script src="js/vela-unpacker.js"></script>
+  <script src="js/canvas-sketch.js"></script>
+  <script src="js/watchface-renderer.js"></script>
+  <script src="js/ai-vision.js"></script>
+  <script src="js/web-ble.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

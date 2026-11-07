@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="stepGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00E5FF"/>
+      <stop offset="100%" stop-color="#0077FF"/>
+    </linearGradient>
+  </defs>
+  <!-- Modern dynamic shoe tread -->
+  <path d="M21 6c-5 0-9 4-9 10 0 6 3 10 3 18 0 4 3 8 8 8s8-4 8-8c0-8 3-12 3-18 0-6-5-10-13-10z" fill="url(#stepGrad)"/>
+  <circle cx="21" cy="40" r="2" fill="#FFFFFF"/>
+  <circle cx="21" cy="34" r="2.5" fill="#FFFFFF"/>
+  <circle cx="21" cy="27" r="3" fill="#FFFFFF"/>
+</svg>

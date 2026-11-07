@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="batGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#34D399"/>
+    </linearGradient>
+  </defs>
+  <rect x="6" y="14" width="32" height="20" rx="4" fill="none" stroke="#FFFFFF" stroke-width="2.5"/>
+  <rect x="40" y="20" width="3" height="8" rx="1.5" fill="#FFFFFF"/>
+  <rect x="9.5" y="17.5" width="22" height="13" rx="2" fill="url(#batGrad)"/>
+  <!-- Bolt icon -->
+  <polygon points="21,18 17,25 21,25 19,30 25,23 21,23" fill="#FFFFFF"/>
+</svg>
