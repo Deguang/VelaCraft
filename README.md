@@ -4,7 +4,8 @@
 > *Next-Gen Pure-Web Visual Watchface Studio for Xiaomi Band 8 / 9 / 10 / Pro Series.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Pure Web](https://img.shields.io/badge/Platform-Pure%20HTML5%20%2F%20Canvas-emerald)](https://github.com/Deguang/VelaCraft)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-app.lideguang.com%2FVelaCraft-blueviolet)](https://app.lideguang.com/VelaCraft/)
+[![Pure Web](https://img.shields.io/badge/Platform-Pure%20HTML5%20%2F%20Canvas-emerald)](https://app.lideguang.com/VelaCraft/)
 [![Devices](https://img.shields.io/badge/Xiaomi%20Band-8%20%7C%209%20%7C%2010%20%7C%20Pro-cyan)](https://github.com/Deguang/VelaCraft)
 
 ---
