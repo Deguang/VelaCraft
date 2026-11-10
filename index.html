@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=20261110c">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 </head>
 <body>
@@ -308,7 +308,7 @@
         <button class="stage-tool-btn" id="btnStageAddSticker" title="上传自定义贴纸或图片" data-i18n="btn_stage_sticker">贴纸</button>
         <button class="stage-tool-btn" id="btnStageAddText" title="添加个性化文字标签" data-i18n="btn_stage_text">文本</button>
         <button class="stage-tool-btn" id="btnStageResetAll" title="恢复所有组件初始位置" data-i18n="btn_stage_reset">重置</button>
-        <button class="stage-tool-btn" id="btnStageImportBin" title="导入本地 .bin 固件文件进行解包分析">导入</button>
+        <button class="stage-tool-btn" id="btnStageImportBin" title="导入本地 .bin 固件文件进行解包分析" data-i18n="btn_stage_import">导入</button>
         <div class="stage-tool-divider"></div>
         <button class="stage-tool-btn" id="btnStageFullscreen" title="全屏工作台 (快捷键 F)" data-i18n="btn_fullscreen">全屏</button>
       </div>
@@ -714,7 +714,7 @@
               <span>📂</span>
               <span data-i18n="btn_import_bin_secondary">导入 .bin 解包分析</span>
             </button>
-            <input type="file" id="binFileInput" accept=".bin" style="display: none;">
+            <input type="file" id="binFileInput" accept=".bin,application/octet-stream,*/*" style="display: none;">
           </div>
         </div>
       </div>
@@ -1089,9 +1089,10 @@
       </div>
 
       <!-- Footer Actions -->
-      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px;">
-        <div style="font-size: 11px; color: var(--text-muted);" data-i18n="decompiler_local_tag">
-          100% 浏览器客户端逆向解析 · 零数据上传
+      <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); padding-top: 14px; margin-top: 14px; flex-wrap: wrap; gap: 8px;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <button class="btn-ghost" id="btnModalBrowseBin" style="font-size: 12px; padding: 6px 12px;">📁 重新选择 .bin</button>
+          <button class="btn-ghost" id="btnModalSampleBin" style="font-size: 12px; padding: 6px 12px;">⚡ 载入样例 (Band 10 Pro)</button>
         </div>
         <div style="display: flex; gap: 8px;">
           <button class="btn-ghost" id="cancelUnpackBtn" data-i18n="decompiler_btn_close">关闭</button>
@@ -1185,13 +1186,13 @@
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script src="js/i18n.js"></script>
-  <script src="js/vela-packer.js"></script>
-  <script src="js/vela-unpacker.js"></script>
-  <script src="js/canvas-sketch.js"></script>
-  <script src="js/watchface-renderer.js"></script>
-  <script src="js/ai-vision.js"></script>
-  <script src="js/web-ble.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/i18n.js?v=20261110c"></script>
+  <script src="js/vela-packer.js?v=20261110c"></script>
+  <script src="js/vela-unpacker.js?v=20261110c"></script>
+  <script src="js/canvas-sketch.js?v=20261110c"></script>
+  <script src="js/watchface-renderer.js?v=20261110c"></script>
+  <script src="js/ai-vision.js?v=20261110c"></script>
+  <script src="js/web-ble.js?v=20261110c"></script>
+  <script src="js/app.js?v=20261110c"></script>
 </body>
 </html>

@@ -1217,6 +1217,27 @@ document.addEventListener("DOMContentLoaded", () => {
     navImportBinBtn.addEventListener("click", () => {
       const studioSec = document.getElementById("studio");
       if (studioSec) studioSec.scrollIntoView({ behavior: "smooth" });
+      if (binFileInput) binFileInput.click();
+    });
+  }
+
+  const btnModalBrowseBin = document.getElementById("btnModalBrowseBin");
+  if (btnModalBrowseBin && binFileInput) {
+    btnModalBrowseBin.addEventListener("click", () => binFileInput.click());
+  }
+
+  const btnModalSampleBin = document.getElementById("btnModalSampleBin");
+  if (btnModalSampleBin) {
+    btnModalSampleBin.addEventListener("click", async () => {
+      try {
+        showToast("正在拉取标准样例表盘 (Band 10 Pro) 进行解包...", "info");
+        const resp = await fetch("assets/RetroChrono_Band10Pro.bin");
+        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        const buffer = await resp.arrayBuffer();
+        await handleBinBuffer(buffer, "RetroChrono_Band10Pro.bin");
+      } catch (err) {
+        showToast(`加载内置样例失败: ${err.message}`, "error");
+      }
     });
   }
 
@@ -1285,10 +1306,10 @@ document.addEventListener("DOMContentLoaded", () => {
     btnLoadSampleBin.addEventListener("click", async () => {
       try {
         showToast("正在拉取标准样例表盘进行解包...", "info");
-        const resp = await fetch("assets/RetroChrono_Band8Pro.bin");
+        const resp = await fetch("assets/RetroChrono_Band10Pro.bin");
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const buffer = await resp.arrayBuffer();
-        await handleBinBuffer(buffer, "RetroChrono_Band8Pro.bin");
+        await handleBinBuffer(buffer, "RetroChrono_Band10Pro.bin");
       } catch (err) {
         showToast(`加载内置样例失败: ${err.message}`, "error");
       }
