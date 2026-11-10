@@ -1588,10 +1588,12 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeBleModal = document.getElementById("closeBleModal");
   const bleStatusText = document.getElementById("bleStatusText");
   const bleProgressBar = document.getElementById("bleProgressBar");
+  const bleProgressPercent = document.getElementById("bleProgressPercent");
 
   btnBleSync.addEventListener("click", async () => {
     bleModal.classList.add("open");
     bleProgressBar.style.width = "0%";
+    if (bleProgressPercent) bleProgressPercent.innerText = "0%";
     bleStatusText.innerText = "正在打开蓝牙设备选择器...";
 
     try {
@@ -1605,6 +1607,7 @@ document.addEventListener("DOMContentLoaded", () => {
       await ble.syncViaBluetooth(binData, {}, (percent, text) => {
         bleProgressBar.style.width = `${percent}%`;
         bleStatusText.innerText = text;
+        if (bleProgressPercent) bleProgressPercent.innerText = `${percent}%`;
       });
 
       showToast("🎉 表盘已通过蓝牙成功直刷到手环！", "success");

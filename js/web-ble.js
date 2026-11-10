@@ -28,17 +28,14 @@ class WebBLEManager {
     onProgress(10, "正在搜寻周围的蓝牙穿戴设备...");
 
     try {
-      // 1. Request BLE Device
+      // 1. Request BLE Device (Display all discoverable devices without name filtering)
       this.device = await navigator.bluetooth.requestDevice({
-        acceptAllDevices: false,
-        filters: [
-          { namePrefix: "Xiaomi" },
-          { namePrefix: "Redmi" },
-          { namePrefix: "Smart Band" }
-        ],
+        acceptAllDevices: true,
         optionalServices: [
           "0000fee0-0000-1000-8000-00805f9b34fb", // Xiaomi/Huami Service
-          "0000fee1-0000-1000-8000-00805f9b34fb"  // DFU Service
+          "0000fee1-0000-1000-8000-00805f9b34fb", // DFU Service
+          "00001800-0000-1000-8000-00805f9b34fb", // Generic Access
+          "00001801-0000-1000-8000-00805f9b34fb"  // Generic Attribute
         ]
       });
 
@@ -56,8 +53,9 @@ class WebBLEManager {
 
       while (sent < totalBytes) {
         sent += chunkSize;
-        const percent = Math.min(99, Math.round(50 + (sent / totalBytes) * 45));
-        onProgress(percent, `正在推送表盘数据 (${Math.min(sent, totalBytes)} / ${totalBytes} bytes)...`);
+        const transferPercent = Math.min(100, Math.round((sent / totalBytes) * 100));
+        const overallPercent = Math.min(99, Math.round(50 + (sent / totalBytes) * 48));
+        onProgress(overallPercent, `正在推送表盘数据... ${transferPercent}%`);
         await new Promise((r) => setTimeout(r, 60)); // smooth pacing
       }
 
