@@ -24,10 +24,20 @@ class VelaUnpacker {
    * Port of XiaomiWatch.Common.Decompress.RleDecoder.UncompressRLEv10
    */
   decompressRLEv10(cdata, width, height) {
-    const destLen = width * height * 4;
-    const out = new Uint8Array(destLen);
-    const recordSize = 4;
+    let destLen = width * height * 4;
+    let recordSize = 4;
     let num = 0;
+
+    // Check for MiBand8Pro / Vela magic header { 224, 33, 165, 90 } (0x5AA521E0)
+    if (cdata.length >= 8 && cdata[0] === 0xE0 && cdata[1] === 0x21 && cdata[2] === 0xA5 && cdata[3] === 0x5A) {
+      const type = cdata[4] | (cdata[5] << 8) | (cdata[6] << 16) | (cdata[7] << 24);
+      recordSize = type & 0x0F || 4;
+      const unpackedLen = type >>> 4;
+      if (unpackedLen > 0) destLen = unpackedLen;
+      num = 8; // cleanly skip 8-byte magic header
+    }
+
+    const out = new Uint8Array(destLen);
     let num2 = 0;
 
     while (num < cdata.length && num2 < destLen) {
@@ -36,28 +46,23 @@ class VelaUnpacker {
         // Run of identical pixel
         if (num > cdata.length - recordSize) break;
         const count = b & 0x7F;
-        const p0 = cdata[num++];
-        const p1 = cdata[num++];
-        const p2 = cdata[num++];
-        const p3 = cdata[num++];
+        const p = cdata.subarray(num, num + recordSize);
+        num += recordSize;
 
         for (let i = 0; i < count; i++) {
-          if (num2 + 4 <= destLen) {
-            out[num2++] = p0;
-            out[num2++] = p1;
-            out[num2++] = p2;
-            out[num2++] = p3;
+          if (num2 + recordSize <= destLen) {
+            out.set(p, num2);
+            num2 += recordSize;
           }
         }
       } else {
         // Stream of distinct pixels
         const count = b & 0x7F;
         for (let j = 0; j < count; j++) {
-          if (num + 4 <= cdata.length && num2 + 4 <= destLen) {
-            out[num2++] = cdata[num++];
-            out[num2++] = cdata[num++];
-            out[num2++] = cdata[num++];
-            out[num2++] = cdata[num++];
+          if (num + recordSize <= cdata.length && num2 + recordSize <= destLen) {
+            out.set(cdata.subarray(num, num + recordSize), num2);
+            num2 += recordSize;
+            num += recordSize;
           }
         }
       }
