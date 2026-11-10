@@ -46,6 +46,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tabGlobalBtn.classList.remove("active");
     inspectorTabContent.style.display = "flex";
     globalTabContent.style.display = "none";
+    if (window.innerWidth <= 1024) {
+      document.querySelectorAll(".mobile-tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.mobileTab === "inspector"));
+    }
   });
 
   tabGlobalBtn.addEventListener("click", () => {
@@ -53,6 +56,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tabInspectorBtn.classList.remove("active");
     inspectorTabContent.style.display = "none";
     globalTabContent.style.display = "flex";
+    if (window.innerWidth <= 1024) {
+      document.querySelectorAll(".mobile-tab-btn").forEach((b) => b.classList.toggle("active", b.dataset.mobileTab === "export"));
+    }
   });
 
   // ================= Inspector Elements Reference =================
@@ -1769,26 +1775,53 @@ document.addEventListener("DOMContentLoaded", () => {
   const panelSketch = document.getElementById("panelSketch");
   const panelStage = document.getElementById("panelStage");
   const panelInspector = document.getElementById("panelInspector");
+  const btnMobileScrollToStage = document.getElementById("btnMobileScrollToStage");
 
-  // Default active on mobile is Stage Panel (The Watch Mockup)
-  if (panelStage) panelStage.classList.add("mobile-active");
+  function setMobileStudioTab(tabName, shouldScrollToStage = false) {
+    mobileTabBtns.forEach((btn) => {
+      btn.classList.toggle("active", btn.dataset.mobileTab === tabName);
+    });
+
+    if (tabName === "presets") {
+      if (panelSketch) panelSketch.classList.add("mobile-active");
+      if (panelInspector) panelInspector.classList.remove("mobile-active");
+      // Ensure Presets sub-tab is triggered if sketch mode was open
+      const tabPresets = document.getElementById("tabPresets");
+      if (tabPresets && !tabPresets.classList.contains("active")) {
+        tabPresets.click();
+      }
+    } else if (tabName === "inspector") {
+      if (panelSketch) panelSketch.classList.remove("mobile-active");
+      if (panelInspector) panelInspector.classList.add("mobile-active");
+      if (tabInspectorBtn) tabInspectorBtn.click();
+    } else if (tabName === "export") {
+      if (panelSketch) panelSketch.classList.remove("mobile-active");
+      if (panelInspector) panelInspector.classList.add("mobile-active");
+      if (tabGlobalBtn) tabGlobalBtn.click();
+    }
+
+    if (shouldScrollToStage && panelStage) {
+      panelStage.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }
 
   mobileTabBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
-      mobileTabBtns.forEach((b) => b.classList.remove("active"));
-      btn.classList.add("active");
-
-      const targetId = btn.dataset.target;
-      [panelSketch, panelStage, panelInspector].forEach((p) => {
-        if (p) p.classList.remove("mobile-active");
-      });
-
-      const activePanel = document.getElementById(targetId);
-      if (activePanel) {
-        activePanel.classList.add("mobile-active");
-      }
+      const tabName = btn.dataset.mobileTab;
+      const isAlreadyActive = btn.classList.contains("active");
+      setMobileStudioTab(tabName, isAlreadyActive);
     });
   });
+
+  if (btnMobileScrollToStage && panelStage) {
+    btnMobileScrollToStage.addEventListener("click", () => {
+      panelStage.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
+  // Default active on mobile is Presets panel below the stage
+  if (panelSketch) panelSketch.classList.add("mobile-active");
+  if (panelInspector) panelInspector.classList.remove("mobile-active");
 
   // ================= Global Keyboard Shortcuts =================
   window.addEventListener("keydown", (e) => {

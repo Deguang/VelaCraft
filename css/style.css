@@ -2628,9 +2628,13 @@ body.has-fullscreen .btn-exit-fullscreen {
 }
 
 /* ==========================================================================
-   Mobile Studio Tabs (Hidden on Desktop)
+   Mobile Studio Tabs (Hidden on Desktop, Visible on <= 1024px)
    ========================================================================== */
 .mobile-studio-tabs {
+  display: none;
+}
+
+.mobile-stage-anchor-btn {
   display: none;
 }
 
@@ -2654,33 +2658,35 @@ body.has-fullscreen .btn-exit-fullscreen {
     display: none;
   }
 
-  /* Show Mobile Studio Segment Switcher */
+  /* Sticky Mobile Studio Segment Switcher */
   .mobile-studio-tabs {
-    display: flex;
+    display: flex !important;
+    order: 2 !important;
     align-items: center;
     justify-content: center;
-    gap: 6px;
-    margin-bottom: 16px;
-    background: rgba(18, 20, 26, 0.85);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    padding: 4px;
-    border-radius: var(--radius-md);
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(14, 16, 22, 0.96);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     width: 100%;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    position: sticky;
+    top: 52px;
+    z-index: 30;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
   }
 
   .mobile-tab-btn {
     flex: 1;
-    background: transparent;
-    border: 1px solid transparent;
+    max-width: 160px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
     color: var(--text-secondary);
     font-size: 13px;
     padding: 8px 12px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-md);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -2690,48 +2696,113 @@ body.has-fullscreen .btn-exit-fullscreen {
     transition: var(--transition-fast);
   }
 
+  .mobile-tab-icon {
+    font-size: 14px;
+  }
+
   .mobile-tab-btn:hover {
     color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.08);
   }
 
   .mobile-tab-btn.active {
-    background: rgba(94, 106, 210, 0.2);
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.25) 0%, rgba(37, 99, 235, 0.15) 100%);
     color: #fff;
-    border-color: var(--accent);
-    box-shadow: 0 0 10px rgba(94, 106, 210, 0.25);
+    border-color: rgba(59, 130, 246, 0.6);
+    box-shadow: 0 0 14px rgba(59, 130, 246, 0.35);
+    font-weight: 600;
   }
 
-  /* Studio Workspace Segment Switching */
+  .mobile-stage-anchor-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    color: var(--text-secondary);
+    font-size: 16px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    flex-shrink: 0;
+  }
+
+  .mobile-stage-anchor-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+  }
+
+  /* Studio Workspace Segment Switching: Vertical Stack */
   .workspace {
-    display: block !important;
+    display: flex !important;
+    flex-direction: column !important;
     height: auto !important;
+    min-height: auto !important;
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    overflow: hidden;
+    overflow: visible !important;
+    background: var(--bg-surface);
   }
 
-  .workspace .panel,
+  /* Watch Viewport Stage is ALWAYS visible at the top */
   .workspace .stage-panel {
-    display: none;
-    width: 100%;
-    border: none !important;
-  }
-
-  /* Only display active mobile segment */
-  .workspace .panel.mobile-active,
-  .workspace .stage-panel.mobile-active {
     display: flex !important;
+    order: 1 !important;
+    width: 100% !important;
+    border: none !important;
+    border-bottom: 1px solid var(--border) !important;
+    height: 380px !important;
+    min-height: 380px !important;
+    padding: 14px 12px !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
 
+  /* Mobile Active Control Panels */
   .workspace .panel {
-    height: auto;
-    min-height: 560px;
-    max-height: 720px;
-    overflow-y: auto;
+    display: none !important;
+    order: 3 !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: auto !important;
+    max-height: none !important;
+    border: none !important;
+    overflow: visible !important;
+    background: transparent !important;
   }
 
-  .workspace .stage-panel {
-    height: 600px;
+  .workspace .panel.mobile-active {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Hide redundant panel headers and duplicate sub-tabs on mobile */
+  .workspace .panel .panel-header {
+    display: none !important;
+  }
+
+  #panelInspector > .panel-body > .tabs {
+    display: none !important;
+  }
+
+  /* On mobile export tab, elevate export actions to the top for instant thumb access */
+  #globalTabContent {
+    display: flex;
+    flex-direction: column;
+  }
+
+  #globalTabContent .export-card {
+    order: -1 !important;
+    margin-bottom: 14px !important;
+  }
+
+  .workspace .panel-body {
+    padding: 16px !important;
+    overflow: visible !important;
+    height: auto !important;
+    max-height: none !important;
   }
 
   .features-grid, .guide-grid, .faq-grid {
@@ -2823,6 +2894,72 @@ body.has-fullscreen .btn-exit-fullscreen {
     font-size: 13px;
   }
 
+  /* Compact Viewport Stage on Tablets & Phones (<= 768px) */
+  .workspace .stage-panel {
+    height: 330px !important;
+    min-height: 330px !important;
+    padding: 8px 6px !important;
+  }
+
+  .stage-telemetry,
+  .stage-footer {
+    display: none !important;
+  }
+
+  .stage-hardware-header {
+    top: 6px !important;
+    padding: 3px 8px !important;
+    gap: 6px !important;
+    max-width: 96% !important;
+  }
+
+  .stage-device-dropdown {
+    font-size: 11px !important;
+    max-width: 140px !important;
+  }
+
+  .stage-toolbar {
+    top: 40px !important;
+    padding: 3px 6px !important;
+    gap: 3px !important;
+    max-width: calc(100% - 16px) !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .stage-tool-btn {
+    padding: 4px 7px !important;
+    font-size: 11px !important;
+    white-space: nowrap !important;
+  }
+
+  .band-mockup-wrapper {
+    transform: scale(0.66) !important;
+    transform-origin: center center !important;
+    margin-top: 44px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .band-strap-top,
+  .band-strap-bottom {
+    height: 32px !important;
+  }
+
+  .band-mockup-wrapper.pill-mode {
+    transform: scale(0.64) !important;
+  }
+
+  /* Preset Cards & Mobile Controls Optimization */
+  .preset-card-item {
+    padding: 12px 14px !important;
+    min-height: 52px !important;
+  }
+
+  .btn-download-bin {
+    padding: 14px 16px !important;
+    font-size: 14px !important;
+  }
+
   /* Touch Table Scroll Indicator */
   .specs-table-wrapper {
     overflow-x: auto;
@@ -2906,49 +3043,76 @@ body.has-fullscreen .btn-exit-fullscreen {
   }
 
   .stage-panel {
-    height: 560px;
-    padding: 12px 6px;
+    height: 300px !important;
+    min-height: 300px !important;
+    padding: 6px 4px !important;
   }
 
   .stage-hardware-header {
-    top: 8px;
-    padding: 3px 8px;
-    gap: 6px;
-    max-width: 96%;
+    top: 6px !important;
+    padding: 2px 6px !important;
+    gap: 4px !important;
+    max-width: 96% !important;
   }
 
   .stage-device-dropdown {
-    font-size: 11px;
-    max-width: 140px;
+    font-size: 11px !important;
+    max-width: 130px !important;
   }
 
   .stage-spec-badge {
-    display: none;
+    display: none !important;
   }
 
   .stage-spec-badge.res {
-    display: inline-block;
-    font-size: 9px;
-    padding: 1px 4px;
+    display: inline-block !important;
+    font-size: 9px !important;
+    padding: 1px 4px !important;
   }
 
-  /* Scale watch chassis mockup to fit comfortably without cut-off */
+  /* Scale watch chassis mockup to fit comfortably without cut-off on small phones */
   .band-mockup-wrapper {
-    transform: scale(0.84);
-    transform-origin: center center;
-    margin-top: 52px;
+    transform: scale(0.58) !important;
+    transform-origin: center center !important;
+    margin-top: 38px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .band-strap-top,
+  .band-strap-bottom {
+    height: 20px !important;
+  }
+
+  .band-mockup-wrapper.pill-mode {
+    transform: scale(0.56) !important;
   }
 
   .stage-toolbar {
-    top: 44px;
-    padding: 3px;
-    gap: 2px;
+    top: 36px !important;
+    padding: 2px 4px !important;
+    gap: 2px !important;
+    max-width: calc(100% - 10px) !important;
   }
 
   .stage-tool-btn {
-    padding: 4px 6px;
-    font-size: 10px;
-    white-space: nowrap;
+    padding: 3px 5px !important;
+    font-size: 10px !important;
+    white-space: nowrap !important;
+  }
+
+  .mobile-studio-tabs {
+    padding: 8px 10px !important;
+    gap: 5px !important;
+  }
+
+  .mobile-tab-btn {
+    padding: 7px 6px !important;
+    font-size: 12px !important;
+    gap: 4px !important;
+  }
+
+  .mobile-tab-icon {
+    font-size: 13px !important;
   }
 
   /* Decompiler Modal Mobile Adaptation */

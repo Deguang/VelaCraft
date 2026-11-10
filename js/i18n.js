@@ -23,9 +23,11 @@ class I18nManager {
         nav_exit_fullscreen: "退出全屏",
 
         // Mobile Studio Tabs
+        mobile_tab_presets: "预设风格",
+        mobile_tab_inspector: "图层微调",
+        mobile_tab_export: "导出固件",
         mobile_tab_sketch: "预设资产",
         mobile_tab_stage: "真机视口",
-        mobile_tab_inspector: "属性微调",
 
         // Hero
         hero_pill_text: "纯前端 WASM 固件编译 · 蓝牙推流一体化工坊",
@@ -188,9 +190,11 @@ class I18nManager {
         nav_exit_fullscreen: "Exit Fullscreen",
 
         // Mobile Studio Tabs
+        mobile_tab_presets: "Presets",
+        mobile_tab_inspector: "Layers",
+        mobile_tab_export: "Export",
         mobile_tab_sketch: "Presets",
         mobile_tab_stage: "Viewport",
-        mobile_tab_inspector: "Inspector",
 
         // Hero
         hero_pill_text: "Pure WASM Compiler & Web Bluetooth Direct Push",
