@@ -169,26 +169,26 @@ class WatchfaceRenderer {
         id: "hrm",
         name: "心率测量 (Heart Rate)",
         type: "hrm",
-        x: 124,
+        x: 136,
         y: 344,
         bigHrm: true,
         color: "#FF3344",
         customIcon: null,
         visible: true,
         locked: false,
-        bounds: { x: 124, y: 344, width: 90, height: 96 }
+        bounds: { x: 136, y: 344, width: 90, height: 96 }
       },
       {
         id: "cal",
         name: "卡路里 (Calories)",
         type: "cal",
-        x: 234,
+        x: 238,
         y: 344,
         color: "#FF7000",
         customIcon: null,
         visible: true,
         locked: false,
-        bounds: { x: 234, y: 344, width: 90, height: 96 }
+        bounds: { x: 238, y: 344, width: 90, height: 96 }
       }
     ];
 
@@ -264,7 +264,7 @@ class WatchfaceRenderer {
           ribbon:  { x: 14,  y: 270, bounds: { x: 14, y: 270, width: 308, height: 42 } },
           steps:   { x: 14,  y: 344, bounds: { x: 14, y: 344, width: 90, height: 96 } },
           hrm:     { x: 136, y: 344, bigHrm: true, bounds: { x: 136, y: 344, width: 90, height: 96 } },
-          cal:     { x: 234, y: 344, bounds: { x: 234, y: 344, width: 90, height: 96 } }
+          cal:     { x: 238, y: 344, bounds: { x: 238, y: 344, width: 90, height: 96 } }
         };
 
     Object.entries(defaults).forEach(([id, props]) => {
@@ -1533,7 +1533,7 @@ class WatchfaceRenderer {
       ctx.fillStyle = layer.accentColor || "#F5B432";
       ctx.fillText(d.week, weekX, y + 34);
 
-      const secX = x + 268;
+      const secX = x + 224;
       ctx.font = 'bold 12px "ChillDIN", sans-serif';
       ctx.fillStyle = "#8E8E93";
       ctx.fillText("SEC", secX, y + 6);
