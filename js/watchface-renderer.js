@@ -263,7 +263,7 @@ class WatchfaceRenderer {
           battery: { x: 258, y: 27,  fontSize: 28, bounds: { x: 258, y: 27, width: 68, height: 28 } },
           ribbon:  { x: 14,  y: 270, bounds: { x: 14, y: 270, width: 308, height: 42 } },
           steps:   { x: 14,  y: 344, bounds: { x: 14, y: 344, width: 90, height: 96 } },
-          hrm:     { x: 124, y: 344, bigHrm: true, bounds: { x: 124, y: 344, width: 90, height: 96 } },
+          hrm:     { x: 136, y: 344, bigHrm: true, bounds: { x: 136, y: 344, width: 90, height: 96 } },
           cal:     { x: 234, y: 344, bounds: { x: 234, y: 344, width: 90, height: 96 } }
         };
 

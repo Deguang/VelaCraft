@@ -1203,6 +1203,10 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelUnpackBtn.addEventListener("click", closeUnpack);
 
   // Trigger file browser
+  const btnStageImportBin = document.getElementById("btnStageImportBin");
+  if (btnStageImportBin && binFileInput) {
+    btnStageImportBin.addEventListener("click", () => binFileInput.click());
+  }
   if (btnBrowseBin && binFileInput) {
     btnBrowseBin.addEventListener("click", () => binFileInput.click());
   }

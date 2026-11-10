@@ -308,6 +308,7 @@
         <button class="stage-tool-btn" id="btnStageAddSticker" title="上传自定义贴纸或图片" data-i18n="btn_stage_sticker">贴纸</button>
         <button class="stage-tool-btn" id="btnStageAddText" title="添加个性化文字标签" data-i18n="btn_stage_text">文本</button>
         <button class="stage-tool-btn" id="btnStageResetAll" title="恢复所有组件初始位置" data-i18n="btn_stage_reset">重置</button>
+        <button class="stage-tool-btn" id="btnStageImportBin" title="导入本地 .bin 固件文件进行解包分析">导入</button>
         <div class="stage-tool-divider"></div>
         <button class="stage-tool-btn" id="btnStageFullscreen" title="全屏工作台 (快捷键 F)" data-i18n="btn_fullscreen">全屏</button>
       </div>
@@ -708,6 +709,12 @@
               <span data-i18n="btn_download_bin">导出 .bin 固件</span>
               <span class="kbd">⌘S</span>
             </button>
+
+            <button class="btn-ghost" id="btnImportBinSecondary" style="border: 1px dashed var(--border); width: 100%; justify-content: center; padding: 10px; font-size: 13px; margin-top: 8px; border-radius: var(--radius-sm);" title="导入已有的 Xiaomi Vela .bin 固件文件进行解包分析">
+              <span>📂</span>
+              <span data-i18n="btn_import_bin_secondary">导入 .bin 解包分析</span>
+            </button>
+            <input type="file" id="binFileInput" accept=".bin" style="display: none;">
           </div>
         </div>
       </div>
