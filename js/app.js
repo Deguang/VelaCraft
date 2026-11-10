@@ -1231,7 +1231,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnModalSampleBin.addEventListener("click", async () => {
       try {
         showToast("正在拉取标准样例表盘 (Band 10 Pro) 进行解包...", "info");
-        const resp = await fetch("assets/RetroChrono_Band10Pro.bin");
+        const resp = await fetch("assets/RetroChrono_Band10Pro.bin?v=20261110h", { cache: "no-store" });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const buffer = await resp.arrayBuffer();
         await handleBinBuffer(buffer, "RetroChrono_Band10Pro.bin");
@@ -1306,7 +1306,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnLoadSampleBin.addEventListener("click", async () => {
       try {
         showToast("正在拉取标准样例表盘进行解包...", "info");
-        const resp = await fetch("assets/RetroChrono_Band10Pro.bin");
+        const resp = await fetch("assets/RetroChrono_Band10Pro.bin?v=20261110h", { cache: "no-store" });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const buffer = await resp.arrayBuffer();
         await handleBinBuffer(buffer, "RetroChrono_Band10Pro.bin");

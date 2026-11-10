@@ -32,12 +32,8 @@ class VelaPacker {
    */
   async loadTemplate(deviceType = "467") {
     const config = this.deviceConfigs[deviceType] || this.deviceConfigs["467"];
-    if (this.cachedBinaries[deviceType]) {
-      return this.cachedBinaries[deviceType];
-    }
-
     try {
-      const response = await fetch(`assets/${config.name}.bin`);
+      const response = await fetch(`assets/${config.name}.bin?v=20261110h`, { cache: "no-store" });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const arrayBuffer = await response.arrayBuffer();
       this.cachedBinaries[deviceType] = new Uint8Array(arrayBuffer);
