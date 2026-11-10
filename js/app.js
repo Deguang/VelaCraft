@@ -1622,6 +1622,36 @@ document.addEventListener("DOMContentLoaded", () => {
     bleModal.classList.remove("open");
   });
 
+  // Zero-Reset Replacement Guide Modal
+  const btnOpenZeroResetGuide = document.getElementById("btnOpenZeroResetGuide");
+  const zeroResetGuideModal = document.getElementById("zeroResetGuideModal");
+  const closeZeroResetGuideModal = document.getElementById("closeZeroResetGuideModal");
+  const closeZeroResetGuideBtn = document.getElementById("closeZeroResetGuideBtn");
+  const btnDownloadBinFromGuide = document.getElementById("btnDownloadBinFromGuide");
+
+  function openZeroResetGuide() {
+    if (zeroResetGuideModal) zeroResetGuideModal.classList.add("open");
+  }
+  function closeZeroResetGuide() {
+    if (zeroResetGuideModal) zeroResetGuideModal.classList.remove("open");
+  }
+
+  if (btnOpenZeroResetGuide) {
+    btnOpenZeroResetGuide.addEventListener("click", openZeroResetGuide);
+  }
+  if (closeZeroResetGuideModal) {
+    closeZeroResetGuideModal.addEventListener("click", closeZeroResetGuide);
+  }
+  if (closeZeroResetGuideBtn) {
+    closeZeroResetGuideBtn.addEventListener("click", closeZeroResetGuide);
+  }
+  if (btnDownloadBinFromGuide) {
+    btnDownloadBinFromGuide.addEventListener("click", () => {
+      closeZeroResetGuide();
+      if (btnDownloadBin) btnDownloadBin.click();
+    });
+  }
+
   // 3. Web Share API (Mobile One-Tap)
   const btnWebShare = document.getElementById("btnWebShare");
   btnWebShare.addEventListener("click", async () => {

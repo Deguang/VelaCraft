@@ -130,9 +130,9 @@ class I18nManager {
         export_preview_title: "预览图导出",
         btn_export_230: "商店图 230×328",
         btn_export_336: "高清图 336×480",
-        btn_ble_sync: "网页蓝牙直刷手环",
+        btn_ble_sync: "蓝牙直刷",
         btn_web_share: "系统分享",
-        btn_download_bin: "导出 .bin 固件",
+        btn_download_bin: "导出 .bin 固件 (推荐 · 免重置)",
         btn_import_bin_secondary: "导入 .bin 解包分析",
 
         // Features & Architecture
@@ -295,9 +295,9 @@ class I18nManager {
         export_preview_title: "Export & Push",
         btn_export_230: "Store 230×328",
         btn_export_336: "Screen 336×480",
-        btn_ble_sync: "Flash via Bluetooth",
+        btn_ble_sync: "Bluetooth Flash",
         btn_web_share: "Share Firmware",
-        btn_download_bin: "Export .bin",
+        btn_download_bin: "Export .bin (Recommended)",
         btn_import_bin_secondary: "Import .bin File",
 
         // Features & Architecture

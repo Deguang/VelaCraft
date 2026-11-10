@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="css/style.css?v=20261110d">
+  <link rel="stylesheet" href="css/style.css?v=20261110e">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 </head>
 <body>
@@ -694,23 +694,30 @@
               </div>
             </div>
 
-            <button class="btn-ble-sync" id="btnBleSync">
-              <span>📡</span>
-              <span data-i18n="btn_ble_sync">网页蓝牙直刷手环</span>
-            </button>
-
-            <button class="btn-ble-sync" id="btnWebShare" style="background: rgba(255, 255, 255, 0.04); border-color: var(--border); color: var(--text-primary);">
-              <span>📱</span>
-              <span data-i18n="btn_web_share">系统分享</span>
-            </button>
-
-            <button class="btn-download-bin" id="btnDownloadBin">
+            <button class="btn-download-bin" id="btnDownloadBin" title="导出编译好的 .bin 文件，配合手机「表盘自定义工具」一键替换安装，免重置手环">
               <span>📥</span>
-              <span data-i18n="btn_download_bin">导出 .bin 固件</span>
+              <span data-i18n="btn_download_bin">导出 .bin 固件 (推荐 · 免重置)</span>
               <span class="kbd">⌘S</span>
             </button>
 
-            <button class="btn-ghost" id="btnImportBinSecondary" style="border: 1px dashed var(--border); width: 100%; justify-content: center; padding: 10px; font-size: 13px; margin-top: 8px; border-radius: var(--radius-sm);" title="导入已有的 Xiaomi Vela .bin 固件文件进行解包分析">
+            <button class="btn-ghost" id="btnOpenZeroResetGuide" style="width: 100%; justify-content: center; font-size: 12px; color: var(--accent); padding: 5px 8px; margin-top: 4px; margin-bottom: 8px; border-radius: var(--radius-sm); border: 1px dashed rgba(59, 130, 246, 0.4); background: rgba(59, 130, 246, 0.05);" title="查看如何 1 分钟通过替换法免重置刷入手环">
+              <span>📖</span>
+              <span>1分钟免重置安装指南 (替换法)</span>
+            </button>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 6px;">
+              <button class="btn-ghost" id="btnWebShare" style="border: 1px solid var(--border); font-size: 12px; justify-content: center; padding: 8px 4px; border-radius: var(--radius-sm);" title="调用系统原生分享面板将固件发送至手机或第三方工具">
+                <span>📱</span>
+                <span data-i18n="btn_web_share">系统分享</span>
+              </button>
+              <button class="btn-ghost" id="btnBleSync" style="border: 1px solid rgba(245, 158, 11, 0.3); font-size: 12px; justify-content: center; padding: 8px 4px; border-radius: var(--radius-sm); color: var(--text-secondary);" title="网页蓝牙直接推流（注意：受小米固件鉴权限制，会导致手环解绑并恢复出厂设置）">
+                <span>📡</span>
+                <span data-i18n="btn_ble_sync">蓝牙直刷</span>
+                <span style="font-size: 9px; background: rgba(245, 158, 11, 0.15); color: #fbbf24; padding: 1px 4px; border-radius: 3px; margin-left: 2px;">需重置</span>
+              </button>
+            </div>
+
+            <button class="btn-ghost" id="btnImportBinSecondary" style="border: 1px dashed var(--border); width: 100%; justify-content: center; padding: 8px; font-size: 12px; border-radius: var(--radius-sm);" title="导入已有的 Xiaomi Vela .bin 固件文件进行解包分析">
               <span>📂</span>
               <span data-i18n="btn_import_bin_secondary">导入 .bin 解包分析</span>
             </button>
@@ -1164,6 +1171,10 @@
         <h3 class="modal-title">网页直刷手环 (Web Bluetooth)</h3>
         <button class="btn-close" id="closeBleModal">&times;</button>
       </div>
+
+      <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: var(--radius-sm); padding: 8px 12px; margin-bottom: 12px; font-size: 12px; color: #fca5a5; text-align: left; line-height: 1.4;">
+        ⚠️ <strong>风险提示</strong>：由于小米 Vela 系统安全策略，网页蓝牙直连会导致手环<strong>解除手机绑定并恢复出厂设置</strong>。如需保留步数和日常使用，强烈建议使用「导出 .bin」配合手机替换法！
+      </div>
       
       <div class="radar-scanner">
         <span style="font-size: 28px;">⌚</span>
@@ -1186,17 +1197,79 @@
     </div>
   </div>
 
+  <!-- Zero-Reset Watchface Installation Guide Modal -->
+  <div class="modal-overlay" id="zeroResetGuideModal">
+    <div class="modal-box" style="max-width: 580px; text-align: left;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="display: flex; align-items: center; gap: 8px;">
+          <span>📖</span>
+          <span>小米手环免重置安装指南 (官方替换法)</span>
+        </h3>
+        <button class="btn-close" id="closeZeroResetGuideModal">&times;</button>
+      </div>
+
+      <div style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; display: flex; flex-direction: column; gap: 14px; margin-top: 4px;">
+        <div style="background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25); border-radius: var(--radius-sm); padding: 10px 12px; font-size: 12px; color: var(--text-primary);">
+          💡 <strong>为什么推荐替换法？</strong> 小米手环 8 / 9 / 10 与手机绑定了动态安全鉴权密钥。直接用电脑/网页蓝牙连接会破坏密钥导致手环被迫恢复出厂设置。而「替换法」直接借用官方 App 自己的蓝牙通道，<strong>手环全程不断开、不重置、步数与闹钟 100% 保留！</strong>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--surface-active); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; margin-top: 1px;">1</div>
+            <div>
+              <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">导出并保存表盘固件</div>
+              <div style="color: var(--text-secondary); font-size: 12px;">在工作台点击「<strong>导出 .bin 固件</strong>」，将编译生成的 <code>.bin</code> 文件保存至手机本地。</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--surface-active); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; margin-top: 1px;">2</div>
+            <div>
+              <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">手机下载「表盘自定义工具」</div>
+              <div style="color: var(--text-secondary); font-size: 12px;">在手机应用商店或米坛社区下载安装「<strong>表盘自定义工具</strong>」App，进入后右上角选择对应手环型号（如小米手环 9 / 10）。</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--surface-active); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; margin-top: 1px;">3</div>
+            <div>
+              <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">进入工具选择「替换安装」</div>
+              <div style="color: var(--text-secondary); font-size: 12px;">在工具中点击「制作/导入」或选择本地表盘，选取刚导出的 <code>.bin</code> 文件，点击「替换安装」。</div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; align-items: flex-start;">
+            <div style="width: 24px; height: 24px; border-radius: 50%; background: var(--surface-active); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; margin-top: 1px;">4</div>
+            <div>
+              <div style="font-weight: 600; color: var(--text-primary); margin-bottom: 2px;">在「小米运动健康」中安装官方底包</div>
+              <div style="color: var(--text-secondary); font-size: 12px;">切回官方「<strong>小米运动健康</strong>」App 表盘市场，随便挑选一个免费官方表盘（如 2048）点击安装，工具会在后台毫秒级拦截并替换为你制作的表盘，直接推流上环！</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 10px; font-size: 11px; color: var(--text-muted);">
+          🍎 <strong>iOS 用户建议</strong>：iOS 存在系统沙盒机制无法后台文件替换，推荐借用备用安卓机/平板登录相同小米账号进行替换同步，或使用 TestFlight 社区推送工具。
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 16px; border-top: 1px solid var(--border); padding-top: 12px;">
+        <button class="btn-ghost" id="closeZeroResetGuideBtn">知道了</button>
+        <button class="btn-primary" id="btnDownloadBinFromGuide" style="width: auto; padding: 0 16px;">立即导出 .bin 固件</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
   <!-- Scripts -->
-  <script src="js/i18n.js?v=20261110d"></script>
-  <script src="js/vela-packer.js?v=20261110d"></script>
-  <script src="js/vela-unpacker.js?v=20261110d"></script>
-  <script src="js/canvas-sketch.js?v=20261110d"></script>
-  <script src="js/watchface-renderer.js?v=20261110d"></script>
-  <script src="js/ai-vision.js?v=20261110d"></script>
-  <script src="js/web-ble.js?v=20261110d"></script>
-  <script src="js/app.js?v=20261110d"></script>
+  <script src="js/i18n.js?v=20261110e"></script>
+  <script src="js/vela-packer.js?v=20261110e"></script>
+  <script src="js/vela-unpacker.js?v=20261110e"></script>
+  <script src="js/canvas-sketch.js?v=20261110e"></script>
+  <script src="js/watchface-renderer.js?v=20261110e"></script>
+  <script src="js/ai-vision.js?v=20261110e"></script>
+  <script src="js/web-ble.js?v=20261110e"></script>
+  <script src="js/app.js?v=20261110e"></script>
 </body>
 </html>
